@@ -1,0 +1,6 @@
+{
+  "name": "Isabella Villaseñor AI",
+  "description": "Sistema operativo cognitivo híbrido y soberano con arquitectura classical-first y control gobernado por CROWN.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
