@@ -16,7 +16,8 @@ export type ModuleId =
   | 'investigation'
   | 'creation'
   | 'actions'
-  | 'trust';
+  | 'trust'
+  | 'observability';
 
 export type FunctionState =
   | 'implemented'

@@ -5,10 +5,23 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [
+      {
+        name: "browser-node-crypto-shim",
+        enforce: "pre",
+        resolveId(id, _importer, options) {
+          if (!options?.ssr && (id === "node:crypto" || id === "crypto")) {
+            return path.resolve(__dirname, "./src/lib/browser-node-crypto.ts");
+          }
+          return null;
+        },
+      },
+      react(),
+      tailwindcss(),
+    ],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(__dirname, './src'),
       },
     },
     server: {

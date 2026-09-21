@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { CinematicIntro } from './CinematicIntro';
 import { ChatModule } from './modules/ChatModule';
 import { LedgerInspector } from './modules/LedgerInspector';
@@ -13,12 +13,35 @@ import { QuantumBridgeModule } from './modules/QuantumBridgeModule';
 import { EconomyModule } from './modules/EconomyModule';
 import { GovernanceModule } from './modules/GovernanceModule';
 import { InventoryMatrixModule } from './modules/InventoryMatrixModule';
+import { ObservabilityPanel } from './isabella/ObservabilityPanel';
 import { ModuleId } from '../types/isabella';
 import { Activity, BookOpen, BrainCircuit, Cpu, Database, DollarSign, Globe, Layers, MessageCircle, ShieldCheck, Sparkles, Terminal } from 'lucide-react';
 
+const IsabellaClientApp = lazy(() => import('./isabella/IsabellaClientApp'));
+
 export default function IsabellaPlatform() {
   const [intro, setIntro] = useState(true);
+  const [viewMode, setViewMode] = useState<'enterprise' | 'genesis'>('genesis');
   const [activeModule, setActiveModule] = useState<ModuleId>('overview');
+
+  if (viewMode === 'genesis') {
+    return (
+      <div className="relative min-h-screen bg-[#020817]">
+        <div className="fixed top-3 right-4 z-50">
+          <button
+            onClick={() => setViewMode('enterprise')}
+            className="flex items-center gap-2 rounded-xl border border-cyan-500/40 bg-[#071426]/90 px-3 py-1.5 font-mono text-xs text-white shadow-xl backdrop-blur transition hover:border-cyan-400 hover:bg-[#0b6975]"
+            title="Cambiar a la vista institucional CROWN"
+          >
+            <Layers className="size-3.5 text-cyan-400" /> Modo Enterprise CROWN
+          </button>
+        </div>
+        <Suspense fallback={<div className="flex h-screen items-center justify-center font-mono text-xs text-cyan-200">Cargando Consola Soberana Isabella AI...</div>}>
+          <IsabellaClientApp />
+        </Suspense>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -36,6 +59,12 @@ export default function IsabellaPlatform() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setViewMode('genesis')}
+              className="flex items-center gap-1.5 rounded-xl border border-[#0b6975] bg-[#0b6975]/10 px-3 py-1.5 font-mono text-xs font-semibold text-[#0b6975] transition hover:bg-[#0b6975] hover:text-white"
+            >
+              <Sparkles className="size-3.5" /> Consola Soberana 3D
+            </button>
             <span className="hidden items-center gap-2 rounded-full bg-[#53c6a0]/15 px-3 py-1 font-mono text-xs text-[#0b6975] md:flex">
               <Activity className="size-3.5 animate-pulse" /> CLASICAL-FIRST &middot; PQC ACTIVE
             </span>
@@ -132,6 +161,12 @@ export default function IsabellaPlatform() {
                   >
                     <DollarSign className="size-4" /> Creator Economy
                   </button>
+                  <button
+                    onClick={() => setActiveModule('observability')}
+                    className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-xs font-medium transition ${activeModule === 'observability' ? 'bg-[#0b4f58] text-white' : 'text-[#58696b] hover:bg-[#efece6]'}`}
+                  >
+                    <Activity className="size-4 text-[#0b6975]" /> Observabilidad (Prometheus)
+                  </button>
                 </div>
               </div>
             </div>
@@ -160,6 +195,7 @@ export default function IsabellaPlatform() {
                 {activeModule === 'economy' && 'Creator Economy &middot; Revenue Split Engine'}
                 {activeModule === 'governance' && 'Gobernanza &middot; AI Risk Register'}
                 {activeModule === 'inventory' && 'Inventario Total y Matriz de Estado'}
+                {activeModule === 'observability' && 'Plano de Observabilidad & Métricas Prometheus'}
               </h1>
             </header>
 
@@ -219,6 +255,11 @@ export default function IsabellaPlatform() {
             {activeModule === 'economy' && <EconomyModule />}
             {activeModule === 'governance' && <GovernanceModule />}
             {activeModule === 'inventory' && <InventoryMatrixModule />}
+            {activeModule === 'observability' && (
+              <div className="rounded-2xl border border-slate-800 bg-[#071426] p-6 text-white shadow-xl">
+                <ObservabilityPanel />
+              </div>
+            )}
           </main>
 
           {/* Right Side Panel 1: Telemetry & CROWN Status */}

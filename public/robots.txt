@@ -1,0 +1,67 @@
+# ==============================================================================
+# ROBOTS.TXT — Isabella Villaseñor AI
+# ==============================================================================
+
+User-agent: Googlebot
+User-agent: Googlebot-Image
+User-agent: Googlebot-Video
+User-agent: Bingbot
+User-agent: Slurp
+User-agent: DuckDuckBot
+User-agent: YandexBot
+User-agent: Baiduspider
+Allow: /
+Allow: /assets/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /*.mp3$
+Allow: /*.mp4$
+Disallow: /*.json$
+Disallow: /*.lock$
+Disallow: /*.env*
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /supabase/
+
+User-agent: Twitterbot
+User-agent: facebookexternalhit
+User-agent: LinkedInBot
+User-agent: WhatsApp
+User-agent: TelegramBot
+User-agent: Discordbot
+User-agent: Pinterestbot
+Allow: /
+Allow: /assets/
+Disallow: /node_modules/
+Disallow: /.git/
+
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: CCBot
+User-agent: PerplexityBot
+User-agent: ByteSpider
+Disallow: /
+
+User-agent: AhrefsBot
+User-agent: MJ12bot
+User-agent: SemrushBot
+User-agent: DotBot
+User-agent: Rogerbot
+User-agent: MegaIndex.ru
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: *
+Allow: /
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /supabase/

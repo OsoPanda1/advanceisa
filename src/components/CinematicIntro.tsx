@@ -19,8 +19,20 @@ export function CinematicIntro({ onComplete }: CinematicIntroProps) {
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
   const audioCtxRef = useRef<AudioContext | null>(null);
+  const audioElRef = useRef<HTMLAudioElement | null>(null);
   const oscillatorRef = useRef<OscillatorNode | null>(null);
   const gainNodeRef = useRef<GainNode | null>(null);
+
+  useEffect(() => {
+    if (audioElRef.current) {
+      audioElRef.current.muted = !audioEnabled;
+      if (isPlaying && audioEnabled) {
+        audioElRef.current.play().catch(() => {});
+      } else {
+        audioElRef.current.pause();
+      }
+    }
+  }, [audioEnabled, isPlaying]);
 
   useEffect(() => {
     setMotion(matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -155,6 +167,14 @@ export function CinematicIntro({ onComplete }: CinematicIntroProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-between bg-[#020817] p-6 text-[#f4f6f5] md:p-12" role="region" aria-label="Isabella Cinematic Trailer">
+      <audio
+        ref={audioElRef}
+        src="/assets/background-audio.mp3"
+        autoPlay
+        loop
+        preload="auto"
+        aria-hidden="true"
+      />
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="flex size-10 items-center justify-center rounded-xl border border-[#62c4d2]/40 bg-[#071426] font-serif text-lg text-[#d8a85a]">
